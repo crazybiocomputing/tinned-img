@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>TINNED-IMG</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" type="text/css" href="../tinned/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="../tinned/css/searchBox.css">
+ <link rel="stylesheet" href="../tinned/css/tinned.css">
+ <script type="module">
+
+  'use strict';
+
+  import {TINNED} from '../tinned/src/tinned.js';
+  import {Board} from '../tinned/src/board.js';
+  import {searchBox} from '../tinned/src/searchBox.js';
+  import {components} from '../components/index.js';
+
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+  
+  // Init Board
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);  
+  
+  // Init empty graph
+  board.load({nodes:[],edges:[]});
+  board.run();
+
+  let board_id = document.querySelector("board");
+
+  // Create SearchBox
+  searchBox(main,components);
+</script>
+</head>
+<body>
+<main>
+</main>
+</body>
+</html>

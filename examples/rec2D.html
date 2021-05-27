@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>TWIN - Rec2D</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="../css/twin.css">
+<script type="text/javascript" src="../dist/twin.js"></script>
+
+</head>
+<body>
+<main>
+</main>
+
+<script type="text/javascript">
+  'use strict';
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+
+  TWIN.init();
+  
+  
+  fetch('../templates/nodes.json', {
+    method: 'GET',
+    headers: new Headers({'Content-Type': 'application/json'}),
+    mode: 'cors',
+    cache: 'default'
+
+  })
+  .then ( response => response.json() )
+  .catch ( error => {
+    alert(`Something went wrong - ${error}`)
+  })
+  .then ( nodeTemplates => {
+  
+    // Create Board + Graph
+    let board = new Board(main, nodeTemplates);
+
+    // Load Rec2D Graph
+    let test = {
+      nodes: [
+        {
+          id: 0,
+          template:2,
+          metadata: {
+            comment: "Open...",
+            pos: [507,224]
+          }
+        },
+        {
+          id: 3,
+          template:23,
+          metadata: {
+            comment: "toStack",
+            pos: [224,266],
+            nrows: 180,
+            ncols:1,
+            border: 0
+          }
+        },
+        {
+          id: 5,
+          template:74,
+          metadata: {
+            comment: "Aggregate/Collect",
+            pos: [956,260],
+          }
+        },
+        {
+          id: 6,
+          template:71,
+          metadata: {
+            comment: "Range",
+            pos: [584,154],
+            start:0,
+            stop:-180,
+            step:-1
+          }
+        },
+        {
+          id: 14,
+          template:36,
+          metadata: {
+            comment: "Resize",
+            pos: [560,300],
+            rsz_width: 256,
+            rsz_height: 256
+          }
+        },
+        {
+          id: 17,
+          template:73,
+          metadata: {
+            comment: "Fold",
+            pos: [387,262],
+            axis: "Z"
+          }
+        },
+        {
+          id: 20,
+          template:35,
+          metadata: {
+            comment: "Rotate",
+            pos: [800,290],
+            angle: "auto"
+          }
+        },
+        {
+          id: 21,
+          template:78,
+          metadata: {
+            comment: "Project",
+            pos: [1100,227],
+            axis: "Z",
+            op:"Average"
+          }
+        },
+        {
+          id: 22,
+          template:11,
+          metadata: {
+            comment: "Viewer2D",
+            pos: [1270,261],
+          }
+        }
+      ],
+      edges : [
+        {
+          eid: 1,
+          sockets: ['raster@0','raster2d@3'],
+        },
+        {
+          eid: 2,
+          sockets: ['data@17','raster2d@14'],
+        },
+        {
+          eid: 3,
+          sockets: ['array@6','angle@20'],
+        },
+        {
+          eid: 4,
+          sockets: ['rot_raster2d@20','data@5'],
+        },
+        {
+          eid: 5,
+          sockets: ['rsz_raster2d@14','raster2d@20'],
+        },
+        {
+          eid: 6,
+          sockets: ['array@5','data@21'],
+        },
+        {
+          eid: 7,
+          sockets: ['proj_data@21','raster2d@22'],
+        },
+        {
+          eid: 8,
+          sockets: ['stack@3','array@17'],
+        }
+      ]
+    };
+
+    board.load(test);
+    board.run();
+  }); 
+
+</script>
+</body>
+</html>

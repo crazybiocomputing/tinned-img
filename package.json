@@ -1,0 +1,36 @@
+{
+  "name": "tinned-img",
+  "version": "0.0.1",
+  "description": "Tinned Nodes in Image Processing",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "tests"
+  },
+  "scripts": {
+    "start:dev": "webpack serve mode=development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crazybiocomputing/tinned-img.git"
+  },
+  "keywords": [
+    "Tinned",
+    "visual",
+    "programming",
+    "image",
+    "processing"
+  ],
+  "author": "Jean-Christophe Taveau",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/crazybiocomputing/tinned-img/issues"
+  },
+  "homepage": "https://github.com/crazybiocomputing/tinned-img#readme",
+  "devDependencies": {
+    "webpack": "^5.37.1",
+    "webpack-cli": "^4.7.0",
+    "webpack-dev-server": "^3.11.2"
+  }
+}
