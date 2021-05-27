@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>TINNED - Range</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/tinned.css">
+<script type="module" src="../components/mol/components.js"></script>
+
+</head>
+<body>
+<main>
+</main>
+
+<script type="module">
+
+  'use strict';
+
+  import {TINNED} from '../src/tinned.js';
+  import {Board} from '../src/board.js';
+  import {components} from '../components/basics/components.js';
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+
+  // Init Board
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);
+
+  // Load Graph
+  let test = {
+    nodes: [
+    {
+        id: 1,
+        template:"BASX_RANGE",
+        data: {
+          meta: {
+            pos: [100,195],
+          },
+          state: {
+            start: 1,
+            stop: 20,
+            step: 2
+          }
+        }
+      },
+      {
+        id: 2,
+        template:"BASX_NUMBER",
+        data: {
+          meta: {
+            pos: [100,195],
+          },
+          state: {
+            value: 10
+          }
+        }
+      },
+      {
+        id: 5,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [1050,207],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 7,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [1050,207],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 10,
+        template:"PROG_TAP",
+        data: {
+          meta: {
+            pos: [263,203],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 15,
+        template:"BASX_MATH",
+        data: {
+          meta: {
+            pos: [456,210],
+          },
+          state: {
+            op: 'Add'
+          }
+        }
+      },
+      {
+        id: 17,
+        template:"PROG_TAKE",
+        data: {
+          meta: {
+            pos: [851,206],
+          },
+          state: {
+            value: 3
+          }
+        }
+      },
+      {
+        id: 20,
+        template:"PROG_MAP",
+        data: {
+          meta: {
+            pos: [614,210],
+          },
+          state: {
+            code: '(x) => Math.floor(x * 2.5);'
+          }
+        }
+      }
+    ],
+    edges : [
+      {
+        eid: 1,
+        sockets: ['stream@1','datain@10']
+      },
+      {
+        eid: 2,
+        sockets: ['value@15','x@20']
+      },
+      {
+        eid: 3,
+        sockets: ['result@20','datain@17']
+      },
+      {
+        eid: 4,
+        sockets: ['dataout@17','datain@5']
+      },
+      {
+        eid: 5,
+        sockets: ['dataout@10','x@15']
+      },
+      {
+        eid: 6,
+        sockets: ['stream@1','datain@7']
+      },
+      {
+        eid: 7,
+        sockets: ['value@2','y@15']
+      }
+ 
+    ]
+  };
+
+  board.load(test);
+  board.run();
+
+
+</script>
+</body>
+</html>

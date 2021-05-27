@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>TINNED - Interval</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/tinned.css">
+<script type="module" src="../components/mol/components.js"></script>
+
+</head>
+<body>
+<main>
+</main>
+
+<script type="module">
+
+  'use strict';
+
+  import {TINNED} from '../src/tinned.js';
+  import {Board} from '../src/board.js';
+  import {components} from '../components/basics/components.js';
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+
+  // Init Board
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);
+
+  // Load Graph
+  let test = {
+    board : {
+      zoom: 1.5,
+      translate: {x: 98,y: 0}
+    },
+    nodes: [
+    {
+        id: 1,
+        template:"PROG_INTERVAL",
+        data: {
+          meta: {
+            pos: [236,195],
+          },
+          state: {
+            period: 1000
+          }
+        }
+      },
+      {
+        id: 2,
+        template:"PROG_TAP",
+        data: {
+          meta: {
+            pos: [560,290],
+            shrink: true
+          },
+          state: {}
+        }
+      },
+      {
+        id: 3,
+        template:"PROG_TAKE",
+        data: {
+          meta: {
+            pos: [560,330],
+            shrink: true
+          },
+          state: {
+            value: 10
+          }
+        }
+      },
+      {
+        id: 5,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [849,207],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 6,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [560,126],
+          },
+          state: {}
+        }
+      }
+    ],
+    edges : [
+      {
+        eid: 1,
+        sockets: ['stream@1','datain@2']
+      },
+      {
+        eid: 2,
+        sockets: ['dataout@2','datain@3']
+      },
+      {
+        eid: 3,
+        sockets: ['dataout@3','datain@5']
+      },
+      {
+        eid: 4,
+        sockets: ['stream@1','datain@6']
+      }
+    ]
+  };
+
+  board.load(test);
+  board.run();
+
+
+</script>
+</body>
+</html>

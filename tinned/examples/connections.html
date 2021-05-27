@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<title>connections</title>
+<link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
+<link rel="stylesheet" href="../css/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/tinned.css">
+
+</head>
+<body>
+<main>
+</main>
+
+<script type="module">
+
+  'use strict';
+
+  import {TINNED} from '../src/tinned.js';
+  import {Board} from '../src/core/board.js';
+  import {components} from '../components/mol/components.js';
+  import {Edge} from '../src/core/edge.js';
+
+  ////// MAIN //////
+
+  let main = document.querySelector('main');
+
+  // Init Board
+  TINNED.init();
+  
+  // Create Board + Graph
+  let board = new Board(main,components);
+
+  // Load Graph
+  let graph= {
+    edges: [],
+    nodes: [
+    {
+        id: 1,
+        template:"BASX_NUMBER",
+        data: {
+          meta: {
+            pos: [217,156],
+          },
+          state: {
+            value: 37
+          }
+        }
+      },
+      {
+        id: 5,
+        template:"BASX_MONITOR",
+        data: {
+          meta: {
+            pos: [667,200],
+          },
+          state: {}
+        }
+      },
+      {
+        id: 11,
+        template:"BASX_NUMBER",
+        data: {
+          meta: {
+            pos: [222,312],
+          },
+          state: {
+            value: 46
+          }
+        }
+      },
+      {
+        id: 15,
+        template:"BASX_MATH",
+        data: {
+          meta: {
+            pos: [439,188],
+          },
+          state: {
+            op: 1 // Add
+          }
+        }
+      }
+    ]
+  };
+
+
+board.load(graph);
+board.graph.appendEdge('value@11','y@15');
+board.run();
+
+
+</script>
+</body>
+</html>

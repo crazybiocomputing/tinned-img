@@ -1,0 +1,48 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#NodeList {
+  font-size:xx-small;
+  padding: 5px 5px 5px 5px;
+}
+
+li.Node{
+  margin-top : 4px;
+  margin-bottom: 4px;
+}
+
+.searchbox{
+  width:200px;
+  height: auto;
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.search{
+  background-color: rgba(128, 0, 128, 0.746);
+}
+
+.searchWrapper{
+  padding-left:20px;
+}
+
+.searchbox .footer p{
+  padding-left:2px
+}
+
+#searchbar{
+  padding-left : 10px;
+  margin-left: 9px;
+  margin-right: 9px;
+}
+
+.header.search p {
+  display:inline-block
+}
+
+.header a.close {
+  font-size:small;
+}
