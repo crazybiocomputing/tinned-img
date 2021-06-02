@@ -29,7 +29,7 @@ const montage = (node) => stream => {
 }
 
 export const montage_ui = {
-  id: "IMG_EDGES",
+  id: "IMG_MONTAGE",
   class: "processing",
   description: "Montage",
   tags: ["figure"],
@@ -57,8 +57,8 @@ export const montage_ui = {
       {widget: "numerical", state: 0,name: "border:number"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

@@ -2,12 +2,16 @@
 <html>
 <head>
 <meta charset="utf8">
-<title>TINNED-IMG</title>
+<title>TINNED-IMG: All</title>
 <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet"> 
 <link rel="stylesheet" type="text/css" href="../tinned/css/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../tinned/css/searchBox.css">
 <link rel="stylesheet" href="../tinned/css/tinned.css">
 <link rel="stylesheet" href="../css/tinned-img.css">
+</head>
+<body>
+  <main>
+  </main>
 <script type="module">
 
   'use strict';
@@ -17,29 +21,37 @@
   import {searchBox} from '../tinned/src/searchBox.js';
   import {components} from '../components/index.js';
 
-
   ////// MAIN //////
 
   let main = document.querySelector('main');
-  
+
   // Init Board
   TINNED.init();
   
   // Create Board + Graph
-  let board = new Board(main,components);  
-  
-  // Init empty graph
-  board.load({nodes:[],edges:[]});
+  let board = new Board(main,components);
+
+  // Load Graph
+  let _graph = {nodes: [],edges: []};
+  components
+    .filter(c => c.id.includes('IMG'))
+    .forEach( (c,i) => {
+      let x = 100 + (i % 7) * 210;
+      let y = 50 + Math.floor((i / 7)) * 200;
+      _graph.nodes.push({
+        id: i,
+        template: c.id,
+        data: {
+          meta: {pos: [x, y]},
+          state: {}
+        }
+      });
+    });
+
+  board.load(_graph);
   board.run();
 
-  let board_id = document.querySelector("board");
 
-  // Create SearchBox
-  searchBox(main,components);
 </script>
-</head>
-<body>
-<main>
-</main>
 </body>
 </html>

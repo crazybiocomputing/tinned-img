@@ -24,31 +24,30 @@
 
 'use strict';
 
-const convolveFunc = (node) => stream => {
+const openImageFunc = (node) => stream => {
   return stream;
 }
 
-export const convolve_ui = {
-  id: "IMG_CONVOLVE",
-  class: "processing",
-  description: "Convolve",
-  tags: ["filter"],
-  help: ["Real-space Convolution"],
-  func: convolveFunc,
+
+export const openImage_ui = {
+  id: "IMG_OPEN",
+  class: "producer",
+  description: "Open Raster",
+  tags: ["url","png","jpg","tif","download"],
+  help: ["Open Raster from Local file"],
+  func: openImageFunc,
   ui: [
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "output",name:"rasterout:raster2"}
+      {widget:"label",title: "Data"},
+      {widget: "output", title: "Data",name: "dataout:any"}
     ],
     [
-      {widget: "input",name:"rasterin:raster2"},
-      {widget:"label",title: "Raster"}
+      {widget:"label",title: "File"},
+      {widget: "file", state: '',name: "filename:string"}
     ],
     [
-      {widget:"button", state: true, icon: 'floppy-o',title: 'Save', name: "save:boolean"}
-    ],
-    [
-      {widget:"textarea", state: "1 1 1\n1 1 1\n1 1 1\n",name: "code:string"}
+      {widget: "label", title: "Format"},
+      {widget: "select", state: 'Auto', name: "format:string", "items": ["Auto","GIF","PNG","Jpg","Tif"]},
     ]
   ]
 };

@@ -41,8 +41,12 @@ export const edges_ui = {
       {widget: "output",name:"rasterout:raster2"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "label", title: "Method"},
+      {widget: "select", state: "Sobel","items": ["Sobel","Laplace"],name: "method:string"}
+    ],
+    [
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

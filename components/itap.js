@@ -41,11 +41,15 @@ export const itap_ui = {
       {widget: "output",name:"rasterout:raster2"}
     ],
     [
+      {widget:"label",title: "Header:"},
+      {widget:"label",title: "(0,0) Unknown"}
+    ], 
+    [
       {widget: "canvas",name:"canvas:any"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

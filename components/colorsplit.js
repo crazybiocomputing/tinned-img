@@ -49,8 +49,12 @@ export const colorsplit_ui = {
       {widget: "output",name:"channel3:raster8bit"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "label", title: "Method"},
+      {widget: "select", state: "RGB","items": ["RGB","HSV","HSL"],name: "type:string"}
+    ],
+    [
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

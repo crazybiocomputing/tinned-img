@@ -37,8 +37,8 @@ export const viewimage_ui = {
   func: view2D,
   ui: [
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ],
     [
       {widget: "canvas",name:"canvas:any"}

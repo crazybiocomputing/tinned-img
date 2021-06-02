@@ -41,8 +41,16 @@ export const imath_ui = {
       {widget: "output",name:"rasterout:raster2"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "label", title: "Op."},
+      {widget: "select", state: "Add","items": ["Add","Subtract","Multiply","Divide","AND","OR","XOR","Min","Max","Gamma","Set","Op."],name: "op:string"}
+    ],
+    [
+      {widget: "label", title: "Value"},
+      {widget: "text", state: 0,name: "value:number"}
+    ],
+    [
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

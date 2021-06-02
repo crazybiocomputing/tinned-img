@@ -41,16 +41,20 @@ export const colorMerge_ui = {
       {widget: "output",name:"rasterout:raster2"}
     ],
     [
-      {widget:"label",title: "Channel#1"}, 
-      {widget: "input",name:"channel1:raster8bit"}
+      {widget: "label", title: "Method"},
+      {widget: "select", state: "RGB","items": ["RGB","HSV","HSL"],name: "type:string"}
     ],
     [
-      {widget:"label",title: "Channel#2"}, 
-      {widget: "input",name:"channel2:raster8bit"}
+      {widget: "input",name:"channel1:raster8bit"},
+      {widget:"label",title: "Channel#1"}
     ],
     [
-      {widget:"label",title: "Channel#3"}, 
-      {widget: "input",name:"channel3:raster8bit"}
+      {widget: "input",name:"channel2:raster8bit"},
+      {widget:"label",title: "Channel#2"}
+    ],
+    [
+      {widget: "input",name:"channel3:raster8bit"},
+      {widget:"label",title: "Channel#3"}
     ],
   ]
 };

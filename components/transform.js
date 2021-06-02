@@ -114,9 +114,12 @@ export const transform_ui =  {
       {widget: "numerical", state: 1,name: "sy:number"}
     ],
     [
+      {widget: "label", title: "Interpol."},
+      {widget: "select", state: "Nearest","items": ["Nearest","Bilinear","Bicubic"],name: "interpol:string"}
+    ],
+    [
       {widget: "input",name: "rasterin:raster2"},
       {widget:"label",title: "Raster"}
-    ],
-
+    ]
   ]
 };

@@ -42,11 +42,15 @@ export const threshold_ui = {
     ],
     [
       {widget: "label", title: "Method"},
-      {widget: "select", state: "Default","items": ["Default","Huang","IsoData","Otsu"],name: "type:string"}
+      {widget: "select", state: "Default","items": ["Default","Manual","K-means","Huang","IsoData","Otsu","Triangle"],name: "type:string"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "label", title: "Value"},
+      {widget: "numerical", state: 0,name: "value:number"}
+    ],
+    [
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

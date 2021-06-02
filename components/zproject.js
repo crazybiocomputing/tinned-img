@@ -45,8 +45,8 @@ export const zproject_ui = {
       {widget: "select", state: "None","items": ["None","Sum","Average","Minimum","Maximum"],name: "op:string"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

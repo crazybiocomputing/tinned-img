@@ -30,7 +30,7 @@ const typeConvert = (node) => stream => {
 
 export const type_ui = {
   id: "IMG_TYPE",
-  class: "processing",
+  class: "tool",
   description: "Type",
   tags: ["color","RGB","grayscale"],
   help: ["Image Type Conversion"],
@@ -45,8 +45,8 @@ export const type_ui = {
       {widget: "select", state: "None","items": ["None","8-bit","16-bit","32-bit","RGB"],name: "method:string"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

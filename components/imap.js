@@ -24,7 +24,7 @@
 
 'use strict';
 
-const textImage = (node) => stream => {
+const imapFunc = (node) => stream => {
   return stream;
 }
 
@@ -45,37 +45,28 @@ const resetStyle = (ev) => {
   ev.target.style.color = default_style[1];
 }
 
-const CHESSBOARD = `P1
-# Chessboard
-8 8
-10101010
-01010101
-10101010
-01010101
-10101010
-01010101`;
-
-export const textImage_ui = {
-  id: "IMG_TEXTIMAGE",
-  class: "producer",
-  description: "Text Image",
-  tags: ["PNM","PBM","PGM","CSV"],
-  help: ["Text Image Generator"],
-  func: textImage,
+const IMAP_CODE = `(pix) => pix;`
+export const imap_ui = {
+  id: "IMG_IMAP",
+  class: "processing",
+  description: "RasterMap",
+  tags: ["map","foreach","pixels","rmap","imap","vmap"],
+  help: ["Apply a function to all the pixels/voxels of a raster"],
+  func: imapFunc,
   ui: [
     [
       {widget:"label",title: "Raster"}, 
-      {widget: "output",name:"rasterout:raster2"}
+      {widget: "output",name:"rasterout:raster"}
     ],
     [
-      {widget: "label", title: "Format"},
-      {widget: "select", state: 'Auto', name: "format:string", "items": ["Auto","CSV","TSV","PBM","PGM","PPM"]},
+      {widget: "input",name: "rasterin:raster"},
+      {widget:"label",title: "Raster"}
     ],
     [
       {widget:"button", state: true, icon: 'floppy-o',on: {'mouseup': resetStyle},title: 'Save', name: "save:boolean"}
     ],
     [
-      {widget:"textarea", state: CHESSBOARD,on: {'input': textChanged},name: "code:string"}
+      {widget:"textarea", state: IMAP_CODE,on: {'input': textChanged},name: "code:string"}
     ]
   ]
 };

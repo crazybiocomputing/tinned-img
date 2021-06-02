@@ -53,8 +53,8 @@ export const tostack_ui = {
       {widget: "numerical", state: 0,name: "border:number"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

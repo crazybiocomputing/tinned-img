@@ -45,8 +45,8 @@ export const morphology_ui = {
       {widget: "select", state: "None","items": ["None","Erode","Dilate","Opening","Closing","Outline","FillHoles"],name: "method:string"}
     ],
     [
-      {widget:"label",title: "Raster"}, 
-      {widget: "input",name:"rasterin:raster2"}
+      {widget: "input",name:"rasterin:raster2"},
+      {widget:"label",title: "Raster"}
     ]
   ]
 };

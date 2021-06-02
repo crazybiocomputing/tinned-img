@@ -33,16 +33,19 @@ import {fetchImage_ui} from './fetch_img.js';
 import {fetchSamples_ui} from './fetchsamples.js';
 import {filtering_ui} from './filtering.js';
 import {imath_ui} from './imath.js';
+import {imap_ui} from './imap.js';
 import {itap_ui} from './itap.js';
 import {montage_ui} from './montage.js';
 import {morphology_ui} from './morphology.js';
 import {movie_ui} from './movie.js';
 import {newRaster_ui} from './newraster.js';
+import {openImage_ui} from './open_img.js';
 import {rotate_ui} from './rotate.js';
 import {textImage_ui} from './textimage.js';
 import {threshold_ui} from './threshold.js';
 import {tostack_ui} from './tostack.js';
 import {transform_ui} from './transform.js';
+import {translate_ui} from './translate.js';
 import {type_ui} from './typeconverter.js';
 import {viewi3d_ui} from './viewi3d.js';
 import {viewimage_ui} from './viewimage.js';
@@ -58,16 +61,19 @@ export const components = [
   fetchSamples_ui,
   filtering_ui,
   imath_ui,
+  imap_ui,
   itap_ui,
   montage_ui,
   morphology_ui,
   movie_ui,
   newRaster_ui,
+  openImage_ui,
   rotate_ui,
   textImage_ui,
   threshold_ui,
   tostack_ui,
   transform_ui,
+  translate_ui,
   type_ui,
   viewi3d_ui,
   viewimage_ui,

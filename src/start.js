@@ -1,8 +1,8 @@
 /*
- *  TINNED_IMG: Image Processing Extension of TINy Node EDitor
- *  Copyright (C) 2021  Jean-Christophe Taveau.
+ *  TWIN: Tiny Web Image Processing Nodes
+ *  Copyright (C) 2019-2020 Jean-Christophe Taveau.
  *
- *  This file is part of TINNED-IMG
+ *  This file is part of TWIN
  *
  * This program is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with TINNED-IMG.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with TWIN.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  * Authors:
@@ -24,24 +24,13 @@
 
 'use strict';
 
-const view3D = (node) => stream => {
-  return stream;
+/*
+ * start time for performance measurement.
+ *
+ * @author Jean-Christophe Taveau
+ */
+ const start = async (args) => {
+  args.time_start = performance.now();
+  return args;
 }
 
-export const viewi3d_ui = {
-  id: "IMG_VIEWI3D",
-  class: "consumer",
-  description: "3D Viewer",
-  tags: ["sobel","laplace","edge detection"],
-  help: ["3D Raster Viewer"],
-  func: view3D,
-  ui: [
-    [
-      {widget: "input",name:"rasterin:raster2"},
-      {widget:"label",title: "Raster"}
-    ],
-    [
-      {widget: "canvas",name:"canvas:any"}
-    ]
-  ]
-};
