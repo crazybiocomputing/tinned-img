@@ -4,3 +4,28 @@ figure {
   margin: 2px;
   background-image: url('img/background.png');
 }
+
+.color {
+  background-color: #fb9a99;
+}
+
+.geometry {
+  background-color: #1f78b4;
+}
+
+.binary {
+  background-color: #4d4d4d;
+}
+
+
+.filter,.selection {
+  background-color: #1a9850;
+}
+
+.math {
+  background-color: #66c4ff;
+}
+
+.stack {
+  background-color: #762a83; /*#9970ab;*/
+}

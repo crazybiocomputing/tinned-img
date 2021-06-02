@@ -30,7 +30,7 @@ const iMath = (node) => stream => {
 
 export const imath_ui = {
   id: "IMG_IMATH",
-  class: "color",
+  class: "math",
   description: "ImageMath",
   tags: ["add","subtract","multiply","divide"],
   help: ["Scalar Image Operations"],

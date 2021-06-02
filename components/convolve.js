@@ -30,7 +30,7 @@ const convolveFunc = (node) => stream => {
 
 export const convolve_ui = {
   id: "IMG_CONVOLVE",
-  class: "processing",
+  class: "filter",
   description: "Convolve",
   tags: ["filter"],
   help: ["Real-space Convolution"],

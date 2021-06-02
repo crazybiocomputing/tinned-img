@@ -30,7 +30,7 @@ const thresholdFunc = (node) => stream => {
 
 export const threshold_ui = {
   id: "IMG_THRESHOLD",
-  class: "processing",
+  class: "binary",
   description: "Threshold",
   tags: ["Otsu","Triangle","IsoData","binary","mask"],
   help: ["Threshold"],

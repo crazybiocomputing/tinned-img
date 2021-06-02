@@ -30,7 +30,7 @@ const filterFunc = (node) => stream => {
 
 export const filtering_ui = {
   id: "IMG_FILTER2D",
-  class: "processing",
+  class: "filter",
   description: "Filter",
   tags: ["Mean","GaussianBlur","Median","Minimum","Maximum"],
   help: ["Real-space Filters"],

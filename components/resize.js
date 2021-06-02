@@ -24,9 +24,11 @@
 
 'use strict';
 
-const imapFunc = (node) => stream => {
-  return stream;
-}
+import {pipe} from '../tinned/callbags/callbag-pipe.js';
+import {merge} from '../tinned/callbags/callbag-merge.js';
+import {fromEvent} from '../tinned/callbags/callbag-from-event.js';
+import {filter} from '../tinned/callbags/callbag-filter.js';
+import {map} from '../tinned/callbags/callbag-map.js';
 
 let default_style;
 
@@ -45,43 +47,47 @@ const resetStyle = (ev) => {
   ev.target.style.color = default_style[1];
 }
 
-const IMAP_CODE = `(v,x,y,z,angle,d) => v;
+// MAP operator
+const resizeFunc = (node) => (stream) => {
+  // Get source...
+  let source$ = stream.getCallbag(`rasterin@${node.id}`);
+  // Create stream/callbag
+  const stream$ = pipe(
+    source$
+  );
+  // Set stream
+  stream.setCallbags(`rasterout@${node.id}`,stream$);
+  // Return stream
+  return stream;
+}
 
-// v = pixel value
-// x,y,z = pixel coordinates
-// angle = angle (polar coordinates) 
-// d = distance from center (polar coordinates) `;
-
-const MAP_CODE = `(img) => {
-  // Copy metadata (aka header)
-  const meta = img.meta.slice(0);
-  // Apply identity to all the pixels/voxels
-  const data = img.data.map(px => px);
-  return {meta,data};
-}`;
-
-
-export const imap_ui = {
-  id: "IMG_IMAP",
-  class: "math",
-  description: "RasterMap",
-  tags: ["map","foreach","pixels","rmap","imap","vmap"],
-  help: ["Apply a function to all the pixels/voxels of a raster\nv = pixel value\nx,y,z = pixel coordinates\nangle = angle (polar coords)\nd = distance from center (polar coords) "],
-  func: imapFunc,
+export const resize_ui =  {
+  id: "IMG_RESIZE",
+  class: "geometry",
+  description: "Resize",
+  tags: ["transform","scale",],
+  help: ["Create a new resized 2D image.\nDimension must contained the unit 'px' or '%'"],
+  func: resizeFunc,
   ui: [
     [
       {widget:"label",title: "Raster"}, 
-      {widget: "output",name:"rasterout:raster"}
+      {widget: "output",name:"rasterout:raster2"}
     ],
     [
-      {widget: "input",name: "rasterin:raster"},
+      {widget: "label", title: "Width"},
+      {widget: "text", state: "100%",name: "width:string"}
+    ],
+    [
+      {widget: "label", title: "Height"},
+      {widget: "text", state: "100%",name: "height:string"}
+    ],
+    [
+      {widget: "label", title: "Interpol."},
+      {widget: "select", state: "Nearest","items": ["Nearest","Bilinear","Bicubic"],name: "interpol:string"}
+    ],
+    [
+      {widget: "input",name:"rasterin:raster2"},
       {widget:"label",title: "Raster"}
-    ],
-    [
-      {widget:"button", state: true, icon: 'floppy-o',on: {'mouseup': resetStyle},title: 'Save', name: "save:boolean"}
-    ],
-    [
-      {widget:"textarea", state: IMAP_CODE,on: {'input': textChanged},name: "code:string"}
     ]
   ]
 };

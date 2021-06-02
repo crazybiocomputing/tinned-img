@@ -42,7 +42,7 @@ export const itap_ui = {
     ],
     [
       {widget:"label",title: "Header:"},
-      {widget:"label",title: "(0,0) Unknown"}
+      {widget:"label",title: "0x0px Unknown"}
     ], 
     [
       {widget: "canvas",name:"canvas:any"}

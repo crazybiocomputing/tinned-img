@@ -30,8 +30,8 @@ const morphoFunc = (node) => stream => {
 
 export const morphology_ui = {
   id: "IMG_MM",
-  class: "processing",
-  description: "MathMorphology",
+  class: "binary",
+  description: "Math Morph.",
   tags: ["Dilate","Erode","Opening","Closing","Binary","Outline"],
   help: ["Mathematical Morphology"],
   func: morphoFunc,
@@ -43,6 +43,10 @@ export const morphology_ui = {
     [
       {widget: "label", title: "Method"},
       {widget: "select", state: "None","items": ["None","Erode","Dilate","Opening","Closing","Outline","FillHoles"],name: "method:string"}
+    ],
+    [
+      {widget: "label", title: "Repeat"},
+      {widget: "numerical", state: "1",name: "repeat:number"}
     ],
     [
       {widget: "input",name:"rasterin:raster2"},

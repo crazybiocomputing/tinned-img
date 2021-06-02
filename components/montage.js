@@ -30,7 +30,7 @@ const montage = (node) => stream => {
 
 export const montage_ui = {
   id: "IMG_MONTAGE",
-  class: "processing",
+  class: "stack",
   description: "Montage",
   tags: ["figure"],
   help: ["Create Montage"],

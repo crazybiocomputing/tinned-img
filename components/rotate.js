@@ -59,6 +59,10 @@ export const rotate_ui =  {
       {widget: "output",name:"rasterout:raster2"}
     ],
     [
+      {widget: "label", title: "Interpol."},
+      {widget: "select", state: "Nearest","items": ["Nearest","Bilinear","Bicubic"],name: "interpol:string"}
+    ],
+    [
       {widget: "input",name: "rasterin:raster2"},
       {widget:"label",title: "Raster"}
     ],

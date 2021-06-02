@@ -30,7 +30,7 @@ const montageToStack = (node) => stream => {
 
 export const tostack_ui = {
   id: "IMG_TOSTACK",
-  class: "processing",
+  class: "stack",
   description: "toStack",
   tags: ["figure"],
   help: ["Create Stack from Montage"],

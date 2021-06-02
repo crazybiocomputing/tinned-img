@@ -30,7 +30,7 @@ const zprojectFunc = (node) => stream => {
 
 export const zproject_ui = {
   id: "IMG_ZPROJECT",
-  class: "processing",
+  class: "stack",
   description: "Z-Project",
   tags: ["sum"],
   help: ["Edge Detection"],

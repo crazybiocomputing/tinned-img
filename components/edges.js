@@ -30,7 +30,7 @@ const edgesFunc = (node) => stream => {
 
 export const edges_ui = {
   id: "IMG_EDGES",
-  class: "processing",
+  class: "filter",
   description: "Edges",
   tags: ["sobel","laplace","edge detection"],
   help: ["Edge Detection"],
@@ -42,7 +42,7 @@ export const edges_ui = {
     ],
     [
       {widget: "label", title: "Method"},
-      {widget: "select", state: "Sobel","items": ["Sobel","Laplace"],name: "method:string"}
+      {widget: "select", state: "Sobel","items": ["Prewitt","RobertsCross","Sobel","Laplacian","Canny"],name: "method:string"}
     ],
     [
       {widget: "input",name:"rasterin:raster2"},

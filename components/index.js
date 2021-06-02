@@ -40,6 +40,7 @@ import {morphology_ui} from './morphology.js';
 import {movie_ui} from './movie.js';
 import {newRaster_ui} from './newraster.js';
 import {openImage_ui} from './open_img.js';
+import {resize_ui} from './resize.js';
 import {rotate_ui} from './rotate.js';
 import {textImage_ui} from './textimage.js';
 import {threshold_ui} from './threshold.js';
@@ -68,6 +69,7 @@ export const components = [
   movie_ui,
   newRaster_ui,
   openImage_ui,
+  resize_ui,
   rotate_ui,
   textImage_ui,
   threshold_ui,
