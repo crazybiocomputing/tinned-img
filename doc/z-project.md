@@ -14,10 +14,10 @@ _This node takes as input a 2D Raster_.
 
 ## 2. Properties
    
-### Op.
+### Op. (_Operation_)
 
-_The text area allows to define iterable objects like String or Array (see below for description)._
-
+_An operation must be chosen to combine the pixels with the accumulator._
+_Operations available:_
 - Sum
 - Average
 - Minimum
