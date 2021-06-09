@@ -1,6 +1,7 @@
 # Z-project
 
 _Node emitting a 2D Raster from a stream of rasters (aka Stack)_
+_This node is equivalent to a `reduce`function._
 
 | ![ZProject](img/zproject.png) |
 |------------------------|
@@ -17,10 +18,14 @@ _This node takes as input a 2D Raster_.
 
 _The text area allows to define iterable objects like String or Array (see below for description)._
 
+- Sum
+- Average
+- Minimum
+- Maximum
 
 ## 3. Outputs
 
-### Output Name
+### Raster
 
 _A stream of items_
 
