@@ -24,21 +24,169 @@
 
 'use strict';
 
+import {interval} from '../../tinned/callbags/callbag-interval.js';
+import {fromEvent} from '../../tinned/callbags/callbag-from-event.js';
+import {takeUntil} from '../../tinned/callbags/callbag-take-until.js';
+import {share} from '../../tinned/callbags/callbag-share.js';
+import {pipe} from '../../tinned/callbags/callbag-pipe.js';
+import {map} from '../../tinned/callbags/callbag-map.js';
+import * as DOM from '../../tinned/src/dom/dom.js';
+
+  // Fill the photo with an indication that none has been
+  // captured.
+  const clearphoto = (canvas,photo) => {
+    var context = canvas.getContext('2d');
+    context.fillStyle = "#AAA";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    var data = canvas.toDataURL('image/png');
+    photo.setAttribute('src', data);
+  }
+  
+  // Capture a photo by fetching the current contents of the video
+  // and drawing it into a canvas, then converting that to a PNG
+  // format data URL. By drawing it on an offscreen canvas and then
+  // drawing that to the screen, we can change its size and/or apply
+  // other changes before drawing it.
+  const takePicture = (node) => {
+    console.log('Take Picture');
+    const video = document.querySelector(`#cache #video_${node.id}`);
+    const canvas = document.querySelector(`#cache #canvas_${node.id}`);
+    const photo = document.querySelector(`#preview_${node.id}`);
+    const context = canvas.getContext('2d');
+    let width = video.videoWidth;
+    let height = video.videoHeight;
+    if (width && height) {
+      canvas.width = width;
+      canvas.height = height;
+      context.drawImage(video, 0, 0, width, height);
+      var data = canvas.toDataURL('image/png');
+      photo.setAttribute('src', data);
+    } else {
+      clearphoto(canvas,photo);
+    }
+  }
+
+const canPlay = (streaming,video,canvas,photo) => (ev) => {
+  let height;
+  let width = video.videoWidth;
+  if (!streaming) {
+    height = video.videoHeight / (video.videoWidth/width);
+  
+    // Firefox currently has a bug where the height can't be read from
+    // the video, so we will make assumptions if this happens.
+  
+    if (isNaN(height)) {
+      height = width / (4/3);
+    }
+  
+    video.setAttribute('width', width);
+    video.setAttribute('height', height);
+    canvas.setAttribute('width', width);
+    canvas.setAttribute('height', height);
+    streaming = true;
+  }
+};
+
+const startup = (node) => {
+  // Get/create Element <video>
+  let video = document.querySelector(`#video_${node.id}`) || DOM.h(`video#video_${node.id}`,{},[]);
+  if (video.parentNode === null) {
+    document.querySelector(`#cache`).appendChild(video);
+  }
+  // Get/create Element <canvas>
+  let canvas = document.querySelector(`canvas_${node.id}`) || DOM.h(`canvas#canvas_${node.id}`,{},[]);
+  if (!canvas.parentNode) {
+    document.querySelector('#cache').appendChild(canvas);
+  }
+  // Get/create Element <preview>
+  let preview = document.querySelector(`#preview_${node.id}`) || DOM.h(`img#preview_${node.id}`,{},[]);
+  if (preview.parentNode === null) {
+    preview.style.width = 'inherit';
+    preview.style.margin = 'auto';
+    document.querySelector(`#node_${node.id} figure`).appendChild(preview);
+  }
+
+  let streaming = false;
+  navigator.mediaDevices.getUserMedia({video: true, audio: false})
+  .then( stream =>  {
+    video.srcObject = stream;
+    video.play();
+  })
+  .catch((err) => console.log("An error occurred: " + err) );
+
+  video.addEventListener('canplay', canPlay(streaming,video,canvas,preview), false);
+
+  /*
+  startbutton.addEventListener('click', function(ev){
+  
+    if (!clicked) {
+      recording = setInterval(takepicture,100);
+      ev.preventDefault();
+      clicked = !clicked;
+    }
+    else {
+      console.log('Stop...');
+      clearInterval(recording);
+    }
+
+  }, false);
+  
+  clearphoto();
+  */
+}
+
 const webcamFunc = (node) => stream => {
+  // Get param
+  const stop$ = document.querySelector(`#capture_${node.id}`);
+  let period = Math.floor(1000 / node.data.state.fps);
+  // 
+  startup(node);
+  // Create (multicast) callbag
+  const source$ = pipe(
+    interval(period),
+    map(i => {
+      takePicture(node);
+      return i;
+    }),
+    takeUntil(fromEvent(stop$,'click')),
+    //share
+  );
+  // Set in stream
+  stream.setCallbags(`rasterout@${node.id}`,source$);
+  // Return stream
   return stream;
 }
 
 export const webcam_ui = {
-  id: "IMG_MOVIE",
+  id: "IMG_WEBCAM",
   class: "producer",
   description: "Webcam",
   tags: ["camera"],
-  help: ["Get images from webcam"],
+  help: ["Get frames from webcam"],
   func: webcamFunc,
   ui: [
     [
       {widget:"label",title: "Raster"},
       {widget: "output", title: "Data",name: "rasterout:raster2"}
+    ],
+    [
+      {widget: "label", title: "Width"},
+      {widget: "numerical", state: 320,name: "width:number"}
+    ],
+    [
+      {widget: "label", title: "Height"},
+      {widget: "numerical", state: 240,name: "height:number"}
+    ],
+    [
+      {widget: "label", title: "FPS"},
+      {widget: "numerical", state: 25,name: "fps:number"}
+    ],
+    [
+      {widget:"button", state: false,button: 'Capture', name: "capture:boolean"}
+    ],
+    [
+      {widget:"canvas", name: "preview:boolean"}
     ]
   ]
 };

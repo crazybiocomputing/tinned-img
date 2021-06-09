@@ -50,6 +50,7 @@ import {translate_ui} from './translate.js';
 import {type_ui} from './typeconverter.js';
 import {viewi3d_ui} from './viewi3d.js';
 import {viewimage_ui} from './viewimage.js';
+import {webcam_ui} from './webcam.js';
 import { zproject_ui } from './zproject.js';
 
 export const components = [
@@ -79,5 +80,6 @@ export const components = [
   type_ui,
   viewi3d_ui,
   viewimage_ui,
+  webcam_ui,
   zproject_ui
 ]

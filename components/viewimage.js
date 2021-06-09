@@ -24,9 +24,43 @@
 
 'use strict';
 
+import {pipe} from '../../tinned/callbags/callbag-pipe.js';
+import {fromEvent} from '../../tinned/callbags/callbag-from-event.js';
+import {forEach} from '../../tinned/callbags/callbag-for-each.js';
+import {merge} from '../../tinned/callbags/callbag-merge.js';
+import {subscribe} from '../../tinned/callbags/callbag-subscribe.js';
+
+
 const view2D = (node) => stream => {
+  // Get source...
+  let source$ = stream.getCallbag(`rasterin@${node.id}`);
+
+  const dispose = pipe(
+    source$,
+    subscribe({
+      next: val => {
+        // Update node
+        if (typeof val === 'object') {
+          val = JSON.stringify(val,null,2);
+        }
+        node.data.state.log += val + '\n';
+        console.log(node.data.state.log);
+      },
+      // Never reached because of merge with `click` button that never stops...
+      complete: () => {
+        node.data.state.log += 'Completed!\n';
+        console.log(node.data.state.log);
+      },
+      error: err => alert( err )
+    })
+  );
+  
+  // Store unsubscribe...
+  stream.disposals.push(dispose);
+
   return stream;
 }
+
 
 export const viewimage_ui = {
   id: "IMG_VIEW2D",

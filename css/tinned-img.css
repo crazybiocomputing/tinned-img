@@ -1,7 +1,7 @@
 figure {
   width: 150px;
-  height: 90px;
-  margin: 2px;
+  min-height: 90px;
+  margin: 2px auto;
   background-image: url('img/background.png');
 }
 
