@@ -27,45 +27,63 @@
 import {interval} from '../../tinned/callbags/callbag-interval.js';
 import {fromEvent} from '../../tinned/callbags/callbag-from-event.js';
 import {takeUntil} from '../../tinned/callbags/callbag-take-until.js';
-import {share} from '../../tinned/callbags/callbag-share.js';
-import {pipe} from '../../tinned/callbags/callbag-pipe.js';
 import {map} from '../../tinned/callbags/callbag-map.js';
+import {concatMap} from '../../tinned/callbags/callbag-concat-map.js';
+import {pipe} from '../../tinned/callbags/callbag-pipe.js';
+import {fromPromise} from '../../tinned/callbags/callbag-from-promise.js';
 import * as DOM from '../../tinned/src/dom/dom.js';
 
-  // Fill the photo with an indication that none has been
-  // captured.
-  const clearphoto = (canvas,photo) => {
-    var context = canvas.getContext('2d');
-    context.fillStyle = "#AAA";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+// From https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API/Taking_still_photos
 
-    var data = canvas.toDataURL('image/png');
-    photo.setAttribute('src', data);
+// Fill the photo with an indication that none has been
+// captured.
+const clearphoto = (canvas,photo) => {
+  var context = canvas.getContext('2d');
+  context.fillStyle = "#AAA";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+
+  var data = canvas.toDataURL('image/png');
+  photo.setAttribute('src', data);
+}
+
+// Capture a photo by fetching the current contents of the video
+// and drawing it into a canvas, then converting that to a PNG
+// format data URL. By drawing it on an offscreen canvas and then
+// drawing that to the screen, we can change its size and/or apply
+// other changes before drawing it.
+function takePicture(raster,node,i) {
+
+  console.log('Take Picture');
+  const video = document.querySelector(`#cache #video_${node.id}`);
+  const canvas = document.querySelector(`#cache #canvas_${node.id}`);
+  const context = canvas.getContext('2d');
+
+  if (video.videoWidth && video.videoHeight) {
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, this.width, this.height);
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    raster.pixels = imageData.data;
+  } else {
+    // Gray raster
+    raster.pixels = Uint8ClampedArray.from({length: raster.width * raster.height * 3}, _ => 10);
   }
-  
-  // Capture a photo by fetching the current contents of the video
-  // and drawing it into a canvas, then converting that to a PNG
-  // format data URL. By drawing it on an offscreen canvas and then
-  // drawing that to the screen, we can change its size and/or apply
-  // other changes before drawing it.
-  const takePicture = (node) => {
-    console.log('Take Picture');
-    const video = document.querySelector(`#cache #video_${node.id}`);
-    const canvas = document.querySelector(`#cache #canvas_${node.id}`);
-    const photo = document.querySelector(`#preview_${node.id}`);
-    const context = canvas.getContext('2d');
-    let width = video.videoWidth;
-    let height = video.videoHeight;
-    if (width && height) {
-      canvas.width = width;
-      canvas.height = height;
-      context.drawImage(video, 0, 0, width, height);
-      var data = canvas.toDataURL('image/png');
-      photo.setAttribute('src', data);
-    } else {
-      clearphoto(canvas,photo);
-    }
+  return raster;
+
+}
+
+  /*
+  function* range(from, to) {
+  let i = from;
+  while (i <= to) {
+    yield i;
+    i++;
   }
+}
+
+const result = pipe(
+  fromIter(range(40, 99))
+  */
 
 const canPlay = (streaming,video,canvas,photo) => (ev) => {
   let height;
@@ -75,7 +93,6 @@ const canPlay = (streaming,video,canvas,photo) => (ev) => {
   
     // Firefox currently has a bug where the height can't be read from
     // the video, so we will make assumptions if this happens.
-  
     if (isNaN(height)) {
       height = width / (4/3);
     }
@@ -108,50 +125,46 @@ const startup = (node) => {
   }
 
   let streaming = false;
-  navigator.mediaDevices.getUserMedia({video: true, audio: false})
+  video.addEventListener('canplay', canPlay(streaming,video,canvas,preview), false);
+
+  return navigator.mediaDevices.getUserMedia(
+    {
+      audio: false,
+      video: {
+        width: { exact: node.data.state.width},
+        height: { exact: node.data.state.height }
+      }
+    }
+  )
   .then( stream =>  {
     video.srcObject = stream;
     video.play();
+    node.raster.width = video.videoWidth || canvas.width;
+    node.raster.height = video.videoHeight|| canvas.height;
   })
   .catch((err) => console.log("An error occurred: " + err) );
 
-  video.addEventListener('canplay', canPlay(streaming,video,canvas,preview), false);
-
-  /*
-  startbutton.addEventListener('click', function(ev){
-  
-    if (!clicked) {
-      recording = setInterval(takepicture,100);
-      ev.preventDefault();
-      clicked = !clicked;
-    }
-    else {
-      console.log('Stop...');
-      clearInterval(recording);
-    }
-
-  }, false);
-  
-  clearphoto();
-  */
 }
 
 const webcamFunc = (node) => stream => {
   // Get param
   const stop$ = document.querySelector(`#capture_${node.id}`);
   let period = Math.floor(1000 / node.data.state.fps);
-  // 
-  startup(node);
+
+  node.raster = {
+    type: 'RGB'
+  }
+
   // Create (multicast) callbag
   const source$ = pipe(
-    interval(period),
-    map(i => {
-      takePicture(node);
-      return i;
-    }),
-    takeUntil(fromEvent(stop$,'click')),
+    fromPromise(startup(node)),   // Start Webcam
+    concatMap(nav => interval(period)),
+    map(i => takePicture(node,i)),
+    // sample(fromIter(takePicture(node)))(interval(period)),
+    takeUntil(fromEvent(stop$,'click'))
     //share
   );
+
   // Set in stream
   stream.setCallbags(`rasterout@${node.id}`,source$);
   // Return stream

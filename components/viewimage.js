@@ -41,7 +41,7 @@ const view2D = (node) => stream => {
       next: val => {
         // Update node
         if (typeof val === 'object') {
-          val = JSON.stringify(val,null,2);
+          val = `Title:${val.title}\nType:${val.type}\nWidth:${val.width}\nHeight: ${val.height}\n`;
         }
         node.data.state.log += val + '\n';
         console.log(node.data.state.log);
