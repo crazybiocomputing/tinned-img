@@ -29,3 +29,7 @@ figure {
 .stack {
   background-color: #762a83; /*#9970ab;*/
 }
+
+#cache {
+  display:none;
+}

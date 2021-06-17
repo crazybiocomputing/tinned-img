@@ -29,22 +29,47 @@ import {fromEvent} from '../../tinned/callbags/callbag-from-event.js';
 import {forEach} from '../../tinned/callbags/callbag-for-each.js';
 import {merge} from '../../tinned/callbags/callbag-merge.js';
 import {subscribe} from '../../tinned/callbags/callbag-subscribe.js';
+import * as DOM from '../../tinned/src/dom/dom.js';
+
+
+// https://developer.mozilla.org/fr/docs/Web/API/Canvas_API/Manipulating_video_using_canvas
+const display = (element,raster) => {
+  element.setAttribute('width',raster.width);
+  element.setAttribute('height',raster.height);
+  const ctx = element.getContext('2d');
+  let imgD = ctx.createImageData(raster.width, raster.height);
+  imgD.data.set(raster.pixels);
+  ctx.putImageData(imgD, 0, 0);
+  return raster;
+}
 
 
 const view2D = (node) => stream => {
   // Get source...
   let source$ = stream.getCallbag(`rasterin@${node.id}`);
+  // Get/create Element <preview>
+  let preview = document.querySelector(`#preview_${node.id}`) || DOM.h(`canvas#preview_${node.id}`,{},[]);
+  if (preview.parentNode === null) {
+    preview.style.width = 'inherit';
+    preview.style.margin = 'auto';
+    document.querySelector(`#node_${node.id} figure`).appendChild(preview);
+  }
 
   const dispose = pipe(
     source$,
     subscribe({
-      next: val => {
-        // Update node
+      next: raster => {
+        // Update raster
+        if (typeof raster === 'object') {
+          display(preview,raster);
+        }
+        /*
         if (typeof val === 'object') {
           val = `Title:${val.title}\nType:${val.type}\nWidth:${val.width}\nHeight: ${val.height}\n`;
         }
         node.data.state.log += val + '\n';
         console.log(node.data.state.log);
+        */
       },
       // Never reached because of merge with `click` button that never stops...
       complete: () => {
@@ -75,7 +100,10 @@ export const viewimage_ui = {
       {widget:"label",title: "Raster"}
     ],
     [
-      {widget: "canvas",name:"canvas:any"}
+      {widget: "label",title:"X,Y (width x height)"}
+    ],
+    [
+      {widget: "canvas",name:"raster:any"}
     ]
   ]
 };
